@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wedding Location</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+  <style>
+    :root {
+      --ink: #1c2a24;
+      --ink-soft: #3d5248;
+      --gold: #9a7b4f;
+      --gold-light: #c4a574;
+      --paper: #f7f3ec;
+      --leaf: #2f4f45;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: "Outfit", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(ellipse 80% 60% at 50% 0%, #dfe8e2 0%, transparent 55%),
+        linear-gradient(165deg, #e8efe9 0%, #d4ddd6 45%, #c5d0c8 100%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 28px 16px;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 380px;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.55) 0%, transparent 28%),
+        var(--paper);
+      border: 1px solid rgba(154, 123, 79, 0.35);
+      box-shadow:
+        0 1px 0 rgba(255, 255, 255, 0.7) inset,
+        0 24px 60px rgba(28, 42, 36, 0.18);
+      position: relative;
+      text-align: center;
+      animation: rise 0.8s ease both;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 14px;
+      border: 1px solid rgba(154, 123, 79, 0.45);
+      pointer-events: none;
+    }
+
+    .inner {
+      position: relative;
+      z-index: 1;
+      padding: 44px 32px 40px;
+    }
+
+    .label {
+      font-size: 11px;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 10px;
+    }
+
+    h1 {
+      font-family: "Cormorant Garamond", serif;
+      font-weight: 600;
+      font-size: 2rem;
+      color: var(--leaf);
+      margin-bottom: 8px;
+    }
+
+    .hint {
+      font-family: "Cormorant Garamond", serif;
+      font-style: italic;
+      font-size: 1.1rem;
+      color: var(--ink-soft);
+      margin-bottom: 28px;
+    }
+
+    #qrLink {
+      display: inline-flex;
+      text-decoration: none;
+      cursor: pointer;
+      padding: 12px;
+      background: white;
+      border: 1px solid rgba(154, 123, 79, 0.3);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    #qrLink:hover {
+      transform: scale(1.03);
+      box-shadow: 0 10px 28px rgba(28, 42, 36, 0.12);
+    }
+
+    #qrcode {
+      display: flex;
+      line-height: 0;
+    }
+
+    #qrcode img,
+    #qrcode canvas {
+      display: block;
+    }
+
+    .open-maps {
+      display: inline-block;
+      margin-top: 22px;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--leaf);
+      border-bottom: 1px solid rgba(47, 79, 69, 0.35);
+      padding-bottom: 2px;
+    }
+
+    .open-maps:hover {
+      color: var(--gold);
+      border-color: var(--gold);
+    }
+
+    @keyframes rise {
+      from {
+        opacity: 0;
+        transform: translateY(16px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <article class="card">
+    <div class="inner">
+      <p class="label">Wedding Venue</p>
+      <h1>Location</h1>
+      <p class="hint">Scan or click to open in Google Maps</p>
+
+      <a
+        id="qrLink"
+        href="#"
+        target="_blank"
+        rel="noopener noreferrer"
+        title="Open location in Google Maps"
+      >
+        <div id="qrcode"></div>
+      </a>
+
+      <a id="mapsButton" class="open-maps" href="#" target="_blank" rel="noopener noreferrer">
+        Open in Google Maps
+      </a>
+    </div>
+  </article>
+
+  <script>
+    const latitude = 15.6701389;
+    const longitude = 79.6886111;
+
+    // Simple Maps URL — works on phone scan and in Chrome/Edge
+    const mapsUrl =
+      `https://maps.google.com/?q=${latitude},${longitude}`;
+
+    const qrLink = document.getElementById("qrLink");
+    const mapsButton = document.getElementById("mapsButton");
+
+    qrLink.href = mapsUrl;
+    mapsButton.href = mapsUrl;
+
+    new QRCode(document.getElementById("qrcode"), {
+      text: mapsUrl,
+      width: 200,
+      height: 200,
+      correctLevel: QRCode.CorrectLevel.H
+    });
+  </script>
+
+</body>
+</html>
