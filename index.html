@@ -7,18 +7,20 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,500&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet" />
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
   <style>
     :root {
-      --ink: #1c2a24;
-      --ink-soft: #3d5248;
-      --gold: #9a7b4f;
-      --gold-light: #c4a574;
-      --paper: #f7f3ec;
-      --leaf: #2f4f45;
+      --ink: #2a1520;
+      --ink-soft: #6b4452;
+      --rose: #9c2d55;
+      --rose-deep: #6e1f3c;
+      --gold: #b8923a;
+      --gold-soft: #d4b56a;
+      --paper: #fff8f5;
+      --blush: #f8e6ec;
     }
 
     * {
@@ -32,80 +34,134 @@
       font-family: "Outfit", sans-serif;
       color: var(--ink);
       background:
-        radial-gradient(ellipse 80% 60% at 50% 0%, #dfe8e2 0%, transparent 55%),
-        linear-gradient(165deg, #e8efe9 0%, #d4ddd6 45%, #c5d0c8 100%);
+        radial-gradient(ellipse 90% 70% at 70% 10%, #f3c5d4 0%, transparent 50%),
+        radial-gradient(ellipse 70% 60% at 10% 90%, #d9efe0 0%, transparent 45%),
+        linear-gradient(160deg, #f7eef2 0%, #ebe4e8 55%, #e2ddd8 100%);
       display: flex;
       justify-content: center;
       align-items: center;
-      padding: 28px 16px;
+      padding: 24px 14px;
     }
 
-    .card {
+    .invite {
       width: 100%;
-      max-width: 380px;
-      background:
-        linear-gradient(180deg, rgba(255, 255, 255, 0.55) 0%, transparent 28%),
-        var(--paper);
-      border: 1px solid rgba(154, 123, 79, 0.35);
+      max-width: 420px;
+      overflow: hidden;
+      background: var(--paper);
       box-shadow:
-        0 1px 0 rgba(255, 255, 255, 0.7) inset,
-        0 24px 60px rgba(28, 42, 36, 0.18);
-      position: relative;
-      text-align: center;
-      animation: rise 0.8s ease both;
+        0 30px 70px rgba(110, 31, 60, 0.18),
+        0 2px 0 rgba(255, 255, 255, 0.65) inset;
+      animation: rise 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
     }
 
-    .card::before {
+    .hero {
+      position: relative;
+      width: 100%;
+      height: min(52vh, 360px);
+      overflow: hidden;
+    }
+
+    .hero img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 40%;
+      display: block;
+      transform: scale(1.08);
+      animation: softZoom 8s ease-out both;
+    }
+
+    .hero::after {
       content: "";
       position: absolute;
-      inset: 14px;
-      border: 1px solid rgba(154, 123, 79, 0.45);
+      inset: 0;
+      background:
+        linear-gradient(180deg, rgba(42, 21, 32, 0.08) 0%, transparent 35%),
+        linear-gradient(0deg, rgba(255, 248, 245, 0.98) 0%, rgba(255, 248, 245, 0.35) 28%, transparent 55%);
       pointer-events: none;
     }
 
-    .inner {
+    .content {
       position: relative;
       z-index: 1;
-      padding: 44px 32px 40px;
+      margin-top: -36px;
+      padding: 0 28px 36px;
+      text-align: center;
+    }
+
+    .ornament {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      color: var(--gold);
+      margin-bottom: 14px;
+      opacity: 0;
+      animation: fadeUp 0.7s ease 0.35s both;
+    }
+
+    .ornament span {
+      width: 40px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold-soft), transparent);
+    }
+
+    .ornament svg {
+      width: 14px;
+      height: 14px;
+      fill: currentColor;
     }
 
     .label {
       font-size: 11px;
-      letter-spacing: 0.28em;
+      letter-spacing: 0.3em;
       text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 10px;
+      color: var(--rose);
+      margin-bottom: 8px;
+      opacity: 0;
+      animation: fadeUp 0.7s ease 0.45s both;
     }
 
     h1 {
       font-family: "Cormorant Garamond", serif;
       font-weight: 600;
-      font-size: 2rem;
-      color: var(--leaf);
+      font-size: clamp(2.1rem, 7vw, 2.6rem);
+      color: var(--rose-deep);
+      letter-spacing: 0.02em;
       margin-bottom: 8px;
+      opacity: 0;
+      animation: fadeUp 0.7s ease 0.55s both;
     }
 
     .hint {
       font-family: "Cormorant Garamond", serif;
       font-style: italic;
-      font-size: 1.1rem;
+      font-size: 1.15rem;
       color: var(--ink-soft);
-      margin-bottom: 28px;
+      margin-bottom: 24px;
+      opacity: 0;
+      animation: fadeUp 0.7s ease 0.65s both;
+    }
+
+    .qr-wrap {
+      display: inline-block;
+      padding: 14px;
+      background: white;
+      border: 1px solid rgba(184, 146, 58, 0.35);
+      box-shadow: 0 12px 32px rgba(110, 31, 60, 0.08);
+      opacity: 0;
+      animation: fadeUp 0.8s ease 0.75s both;
     }
 
     #qrLink {
       display: inline-flex;
       text-decoration: none;
       cursor: pointer;
-      padding: 12px;
-      background: white;
-      border: 1px solid rgba(154, 123, 79, 0.3);
-      transition: transform 0.25s ease, box-shadow 0.25s ease;
+      transition: transform 0.25s ease;
     }
 
     #qrLink:hover {
       transform: scale(1.03);
-      box-shadow: 0 10px 28px rgba(28, 42, 36, 0.12);
     }
 
     #qrcode {
@@ -123,12 +179,15 @@
       margin-top: 22px;
       font-size: 12px;
       font-weight: 500;
-      letter-spacing: 0.16em;
+      letter-spacing: 0.18em;
       text-transform: uppercase;
       text-decoration: none;
-      color: var(--leaf);
-      border-bottom: 1px solid rgba(47, 79, 69, 0.35);
-      padding-bottom: 2px;
+      color: var(--rose-deep);
+      border-bottom: 1px solid rgba(156, 45, 85, 0.35);
+      padding-bottom: 3px;
+      transition: color 0.2s ease, border-color 0.2s ease;
+      opacity: 0;
+      animation: fadeUp 0.7s ease 0.9s both;
     }
 
     .open-maps:hover {
@@ -139,32 +198,78 @@
     @keyframes rise {
       from {
         opacity: 0;
-        transform: translateY(16px);
+        transform: translateY(22px);
       }
       to {
         opacity: 1;
         transform: translateY(0);
       }
     }
+
+    @keyframes softZoom {
+      from {
+        transform: scale(1.16);
+      }
+      to {
+        transform: scale(1.08);
+      }
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(12px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 420px) {
+      .hero {
+        height: 44vh;
+        min-height: 240px;
+      }
+
+      .content {
+        padding: 0 22px 30px;
+      }
+    }
   </style>
 </head>
 <body>
 
-  <article class="card">
-    <div class="inner">
+  <article class="invite" aria-label="Wedding venue location">
+    <div class="hero">
+      <img
+        src="assets/wedding-hands.png"
+        alt="Wedding ring held in henna-adorned hands"
+      />
+    </div>
+
+    <div class="content">
+      <div class="ornament" aria-hidden="true">
+        <span></span>
+        <svg viewBox="0 0 24 24"><path d="M12 2l1.2 7.3L20 12l-6.8 2.7L12 22l-1.2-7.3L4 12l6.8-2.7L12 2z"/></svg>
+        <span></span>
+      </div>
+
       <p class="label">Wedding Venue</p>
       <h1>Location</h1>
       <p class="hint">Scan or click to open in Google Maps</p>
 
-      <a
-        id="qrLink"
-        href="#"
-        target="_blank"
-        rel="noopener noreferrer"
-        title="Open location in Google Maps"
-      >
-        <div id="qrcode"></div>
-      </a>
+      <div class="qr-wrap">
+        <a
+          id="qrLink"
+          href="#"
+          target="_blank"
+          rel="noopener noreferrer"
+          title="Open location in Google Maps"
+        >
+          <div id="qrcode"></div>
+        </a>
+      </div>
 
       <a id="mapsButton" class="open-maps" href="#" target="_blank" rel="noopener noreferrer">
         Open in Google Maps
@@ -175,8 +280,6 @@
   <script>
     const latitude = 15.6701389;
     const longitude = 79.6886111;
-
-    // Simple Maps URL — works on phone scan and in Chrome/Edge
     const mapsUrl =
       `https://maps.google.com/?q=${latitude},${longitude}`;
 
@@ -188,8 +291,8 @@
 
     new QRCode(document.getElementById("qrcode"), {
       text: mapsUrl,
-      width: 200,
-      height: 200,
+      width: 180,
+      height: 180,
       correctLevel: QRCode.CorrectLevel.H
     });
   </script>
